@@ -25,10 +25,11 @@ io.on('connection', (socket) => {
     // Create a new lobby
     socket.on('createLobby', (username) => {
         const roomCode = Math.floor(Math.random() * 1000000);
-        room.set(roomCode, {users: [{id: socket.id, username}]});
+        const users = [{id: socket.id, username}];
+        room.set(roomCode.toString(), { users });
         socket.join(roomCode);
-        socket.emit('lobbyCreated', roomCode);
-        console.log(room);
+        socket.emit('lobbyCreated', roomCode, users);
+        room.forEach((value, key) => console.log(`Room: ${key}, Users: ${value.users}`));
     });
     // Join an existing lobby
     socket.on('joinLobby', (roomCode, username) => {
@@ -42,7 +43,14 @@ io.on('connection', (socket) => {
             socket.emit('lobbyJoined', roomCode, existingUsers);
         }
     });
-
+    socket.on('getRoomInfo', (roomCode) => {
+        console.log(`getRoomInfo event received for room: ${roomCode}`);
+        if (!room.has(roomCode)) socket.emit('lobbyNotFound', 'This lobby does not exist');
+        else {
+            const users = room.get(roomCode).users;
+            socket.emit('roomInfo', users);
+        }
+    });
     socket.on('disconnect', () => {
         console.log('User disconnected');
     });
