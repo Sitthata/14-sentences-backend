@@ -1,43 +1,69 @@
-const roomMap = require('./roomMap');
+const roomMap = require("./roomMap");
+const debugMode = true; // Set to true to enable debug output, false to disable it
+const roomCodeGenerator = require("./roomCodeGenerator");
+
+function logDebug(message) {
+  if (debugMode) {
+    console.log(message);
+  }
+}
 
 function handleSocketEvents(socket) {
-  console.log("User connected");
-  
   socket.on("createLobby", (username) => {
-    const roomCode = Math.floor(Math.random() * 1000000);
+    logDebug("Received 'createLobby' event");
+    const roomCode = roomCodeGenerator();
+    logDebug(`Generated room code: ${roomCode}`);
+
     const users = [{ id: socket.id, username }];
+    logDebug("Created users array with the current user");
+
     roomMap.set(roomCode.toString(), { users });
+    logDebug(`Added room with code ${roomCode} to roomMap`);
+
     socket.join(roomCode);
+    logDebug(`User joined room: ${roomCode}`);
+
     socket.emit("lobbyCreated", roomCode, users);
+    logDebug(`Emitted 'lobbyCreated' event with room code and users`);
+
     roomMap.forEach((value, key) =>
-      console.log(`Room: ${key}, Users: ${value.users}`)
+      logDebug(`Room: ${key}, Users: ${JSON.stringify(value.users)}`)
     );
   });
 
   socket.on("joinLobby", (roomCode, username) => {
-    if (!roomMap.has(roomCode))
+    logDebug("Received 'joinLobby' event");
+    if (!roomMap.has(roomCode)) {
+      logDebug("Lobby not found");
       socket.emit("lobbyNotFound", "This lobby does not exist");
-    else {
+    } else {
+      logDebug(`Joining lobby with code: ${roomCode}`);
       const existingUsers = roomMap.get(roomCode).users;
       existingUsers.push({ id: socket.id, username });
       roomMap.set(roomCode, { users: existingUsers });
       socket.join(roomCode);
+      logDebug(`User joined room: ${roomCode}`);
       socket.emit("lobbyJoined", roomCode, existingUsers);
+      logDebug(`Emitted 'lobbyJoined' event with room code and existing users`);
     }
   });
 
   socket.on("getRoomInfo", (roomCode) => {
-    console.log(`getRoomInfo event received for room: ${roomCode}`);
-    if (!roomMap.has(roomCode))
+    logDebug("Received 'getRoomInfo' event");
+    logDebug(`Getting room info for room: ${roomCode}`);
+
+    if (!roomMap.has(roomCode)) {
+      logDebug("Lobby not found");
       socket.emit("lobbyNotFound", "This lobby does not exist");
-    else {
+    } else {
       const users = roomMap.get(roomCode).users;
       socket.emit("roomInfo", users);
+      logDebug(`Emitted 'roomInfo' event with users`);
     }
   });
 
   socket.on("disconnect", () => {
-    console.log("User disconnected");
+    logDebug("User disconnected");
   });
 }
 
