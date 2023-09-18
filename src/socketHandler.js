@@ -54,8 +54,7 @@ function handleSocketEvents(socket) {
 
   socket.on("getRoomInfo", (roomCode) => {
     logDebug("Received 'getRoomInfo' event");
-    logDebug(`Getting room info for room: ${roomCode}`);
-
+    logDebug(`Getting room info for room: ${roomCode}`);    
     if (!roomMap.has(roomCode)) {
       logDebug("Lobby not found");
       socket.emit("lobbyNotFound", "This lobby does not exist");
