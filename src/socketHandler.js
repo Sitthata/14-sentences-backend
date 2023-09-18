@@ -8,7 +8,7 @@ const {
 let line = 1;
 function logDebug(message) {
   if (debugMode) {
-    console.log(line++ + ": - " + message);
+    console.log(line++ + " - " + message);
   }
 }
 
