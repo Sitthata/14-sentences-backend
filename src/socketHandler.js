@@ -1,6 +1,9 @@
 const roomMap = require("./roomMap");
 const debugMode = true; // Set to true to enable debug output, false to disable it
-const roomCodeGenerator = require("./roomCodeGenerator");
+const {
+  generateUniqueRoomCode,
+  removeRoomCode,
+} = require("./roomCodeGenerator"); // Import both functions
 
 function logDebug(message) {
   if (debugMode) {
@@ -11,7 +14,7 @@ function logDebug(message) {
 function handleSocketEvents(socket) {
   socket.on("createLobby", (username) => {
     logDebug("Received 'createLobby' event");
-    const roomCode = roomCodeGenerator();
+    const roomCode = generateUniqueRoomCode();
     logDebug(`Generated room code: ${roomCode}`);
 
     const users = [{ id: socket.id, username }];
@@ -64,6 +67,17 @@ function handleSocketEvents(socket) {
 
   socket.on("disconnect", () => {
     logDebug("User disconnected");
+
+    roomMap.forEach((value, key) => {
+      if (value.users.some((user) => user.id === socket.id)) {
+        value.users = value.users.filter((user) => user.id !== socket.id);
+
+        if (value.users.length === 0) {
+          removeRoomCode(key);
+          logDebug(`Removed room with code ${key} as there are no users`);
+        }
+      }
+    });
   });
 }
 
