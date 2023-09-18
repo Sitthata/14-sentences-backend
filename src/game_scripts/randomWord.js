@@ -1,3 +1,4 @@
+const mapPlayer = new Map();
 const player1 = {
     username: "p1",
     word: ["good1", "bad1"]
@@ -10,16 +11,20 @@ const player3 = {
     username: "p3",
     word: ["good3", "bad3"]
 }
-const allPlayer = [player1, player2, player3]
+mapPlayer.set(0, player1)
+mapPlayer.set(1, player2)
+mapPlayer.set(2, player3)
+
 let goodWord = [];
 let badWord = [];
 
 //for 1 times called .length
-const countAllplayer = allPlayer.length;
+const countAllplayer = mapPlayer.size;
 for (let i = 0; i< countAllplayer; i++){
-    console.log(allPlayer[i])
-    goodWord.push(allPlayer[i].word[0])
-    badWord.push(allPlayer[i].word[1])
+    const playerTemp = mapPlayer.get(i);
+    console.log(playerTemp.word)
+    goodWord.push(playerTemp.word[0])
+    badWord.push(playerTemp.word[1])
 }
 
 function randomWordAllPlayer(allPlayer, goodWord, badWord){
@@ -42,6 +47,7 @@ function randomWord(player , arrayOfWord){
     }
 }
 
-randomWord(player1, goodWord)
-console.log(player1)
-console.log(goodWord)
+// randomWord(player1, goodWord)
+// console.log(player1)
+// console.log(goodWord)
+// console.log(badWord)
