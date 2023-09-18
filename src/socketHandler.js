@@ -3,11 +3,12 @@ const debugMode = true; // Set to true to enable debug output, false to disable 
 const {
   generateUniqueRoomCode,
   removeRoomCode,
-} = require("./roomCodeGenerator"); // Import both functions
+} = require("./roomCodeGenerator");
 
+let line = 1;
 function logDebug(message) {
   if (debugMode) {
-    console.log(message);
+    console.log(line++ + ": - " + message);
   }
 }
 
