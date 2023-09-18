@@ -1,9 +1,8 @@
-// socketHandler.js
-const { roomMap } = require("./roomMap");
+const roomMap = require('./roomMap');
 
-function handleConnection(socket) {
+function handleSocketEvents(socket) {
   console.log("User connected");
-
+  
   socket.on("createLobby", (username) => {
     const roomCode = Math.floor(Math.random() * 1000000);
     const users = [{ id: socket.id, username }];
@@ -16,49 +15,30 @@ function handleConnection(socket) {
   });
 
   socket.on("joinLobby", (roomCode, username) => {
-    const room = roomMap.get(roomCode.toString());
-
-    if (room) {
-      room.users.push({ id: socket.id, username });
+    if (!roomMap.has(roomCode))
+      socket.emit("lobbyNotFound", "This lobby does not exist");
+    else {
+      const existingUsers = roomMap.get(roomCode).users;
+      existingUsers.push({ id: socket.id, username });
+      roomMap.set(roomCode, { users: existingUsers });
       socket.join(roomCode);
-      socket.emit("lobbyJoined", roomCode, room.users);
-    } else {
-      socket.emit("lobbyNotFound");
+      socket.emit("lobbyJoined", roomCode, existingUsers);
     }
   });
 
   socket.on("getRoomInfo", (roomCode) => {
-    const room = roomMap.get(roomCode.toString());
-
-    if (room) {
-      socket.emit("roomInfo", roomCode, room.users);
-    } else {
-      socket.emit("lobbyNotFound");
+    console.log(`getRoomInfo event received for room: ${roomCode}`);
+    if (!roomMap.has(roomCode))
+      socket.emit("lobbyNotFound", "This lobby does not exist");
+    else {
+      const users = roomMap.get(roomCode).users;
+      socket.emit("roomInfo", users);
     }
   });
 
   socket.on("disconnect", () => {
-    let userRoom = null;
-
-    roomMap.forEach((room, roomCode) => {
-      const foundUser = room.users.find((user) => user.id === socket.id);
-
-      if (foundUser) {
-        userRoom = { roomCode, users: room.users };
-      }
-    });
-
-    if (userRoom) {
-      const updatedUsers = userRoom.users.filter(
-        (user) => user.id !== socket.id
-      );
-      roomMap.set(userRoom.roomCode, { users: updatedUsers });
-      socket.leave(userRoom.roomCode);
-      console.log(
-        `User ${socket.id} disconnected from room ${userRoom.roomCode}`
-      );
-    }
+    console.log("User disconnected");
   });
 }
 
-module.exports = { handleConnection };
+module.exports = handleSocketEvents;
