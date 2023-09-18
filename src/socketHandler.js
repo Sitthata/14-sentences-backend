@@ -1,5 +1,6 @@
 const roomMap = require("./roomMap");
 const debugMode = true; // Set to true to enable debug output, false to disable it
+const roomCodeGenerator = require("./roomCodeGenerator");
 
 function logDebug(message) {
   if (debugMode) {
@@ -10,7 +11,7 @@ function logDebug(message) {
 function handleSocketEvents(socket) {
   socket.on("createLobby", (username) => {
     logDebug("Received 'createLobby' event");
-    const roomCode = Math.floor(Math.random() * 1000000);
+    const roomCode = roomCodeGenerator();
     logDebug(`Generated room code: ${roomCode}`);
 
     const users = [{ id: socket.id, username }];
