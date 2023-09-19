@@ -1,5 +1,5 @@
 const mapPlayer = new Map();
-const debugMode = true;
+const debugMode = false; //Debug mode
 const player1 = {
   username: "p1",
   word: ["good1", "bad1"],
@@ -47,7 +47,7 @@ function getAllWord(mapOfPlayer) {
   }
 }
 getAllWord(mapPlayer);
-logDebug("-----------------------")
+logDebug("-----------------------");
 
 function randomIndex(lengthOfArray) {
   return Math.floor(Math.random() * lengthOfArray);
@@ -56,80 +56,46 @@ function randomIndex(lengthOfArray) {
 function randomWordAllPlayer(mapOfPlayer, listWordObj) {
   if (listWordObj.length == 0) return;
   for (let player of mapOfPlayer.values()) {
+    //If last word, just assign it to property
+    if (listWordObj.good.length === 1 && listWordObj.bad.length === 1) {
+      player.wordRandom = [listWordObj.good[0], listWordObj.bad[0]];
+      logDebug(player)
+      continue;
+    }
     //clear word
-    let tempGood = listWordObj.good.filter((word) => !player.word.includes(word));
-    let tempBad = listWordObj.bad.filter((word) => !player.word.includes(word));
-    logDebug(`Temp of good keyword : ${tempGood}`);
-    logDebug(`Temp of good keyword : ${tempBad}`);
+    let filterGood = listWordObj.good.filter(
+      (word) => !player.word.includes(word)
+    );
+    let filterBad = listWordObj.bad.filter(
+      (word) => !player.word.includes(word)
+    );
+    logDebug(`Temp of good keyword : ${filterGood}`);
+    logDebug(`Temp of good keyword : ${filterBad}`);
 
     //random index of each property
-    let randomGoodIndex = randomIndex(tempGood.length);
-    let randomBadIndex = randomIndex(tempBad.length);
+    let randomGoodIndex = randomIndex(filterGood.length);
+    let randomBadIndex = randomIndex(filterBad.length);
     logDebug(
       `Random index of two temp array : GoodIndex ${randomGoodIndex},BadIndex ${randomBadIndex}`
     );
-    
     //Assign keyword to property
     player.wordRandom = [
-      tempGood[randomGoodIndex],
-      tempBad[randomBadIndex]
+      filterGood[randomGoodIndex],
+      filterBad[randomBadIndex],
     ];
     logDebug(player);
 
     //Remove keyword that are used
-    listWordObj.good.splice(randomGoodIndex, 1);
-    listWordObj.bad.splice(randomBadIndex, 1);
-    logDebug("Available good words : "+ listWordObj.good);
-    logDebug("Available bad words : "+ listWordObj.bad);
-    logDebug("----------------------")
+    const indexGoodRemove = listWordObj.good.indexOf(
+      filterGood[randomGoodIndex]
+    );
+    const indexBadRemove = listWordObj.bad.indexOf(filterBad[randomBadIndex]);
+    listWordObj.good.splice(indexGoodRemove, 1);
+    listWordObj.bad.splice(indexBadRemove, 1);
+    logDebug("Available good words : " + listWordObj.good);
+    logDebug("Available bad words : " + listWordObj.bad);
+    logDebug("----------------------");
   }
 }
 
 randomWordAllPlayer(mapPlayer, listAllkeyword);
-
-// logDebug(mapPlayer)
-
-// function randomWord(player, arrayOfWord) {
-//   if (!player && arrayOfWord.length === 0) return;
-//   const randomIndex = Math.floor(Math.random() * arrayOfWord.length);
-//   logDebug(`random index : ${randomIndex}`);
-//   const wordRandom = arrayOfWord[randomIndex];
-//   logDebug(`random word from array ${arrayOfWord} is :  ${wordRandom}`);
-//   if (player.word.includes(wordRandom)) {
-//     logDebug("player get own word. random again");
-//     randomWord(player, arrayOfWord);
-//   } else {
-//     if (player["getRandom"] === undefined) {
-//       player["getRandom"] = new Array(wordRandom);
-//       logDebug(`create new property and get randomword: ${player.getRandom}`);
-//     } else {
-//       player.getRandom.push(wordRandom);
-//       logDebug("push new element to randomWord property : " + player.getRandom);
-//     }
-//     // remove element in array
-//     arrayOfWord.splice(randomIndex, 1);
-//     logDebug("remove used element.");
-//   }
-// }
-
-// function randomWordAllPlayer(mapOfPlayer, arrOfGoodWord, arrOfBadWord) {
-//   if (!mapOfPlayer) return;
-//   //loop and randomword
-//   for (let i = mapOfPlayer.size - 1; i >= 0; i--) {
-//     let player = mapOfPlayer.get(i);
-//     randomWord(player, arrOfGoodWord);
-//     randomWord(player, arrOfBadWord);
-//     if(arrOfBadWord.length === 1 || arrOfGoodWord.length === 1){
-//       player.getRandom = new Array(arrOfGoodWord[0], arrOfBadWord[0])
-//     }
-//   }
-// }
-// randomWordAllPlayer(mapPlayer, goodWord, badWord);
-// console.log(mapPlayer);
-// console.log(mapPlayer.get(1))
-// const testPlayer = mapPlayer.get(1);
-// randomWord(testPlayer, goodWord);
-// randomWord(testPlayer, badWord);
-// console.log(testPlayer);
-// console.log(goodWord)
-// console.log(badWord)
