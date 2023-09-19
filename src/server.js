@@ -19,6 +19,8 @@ app.get("/", (_, res) => {
   res.send("Server is running");
 });
 
-io.on("connection", handleSocketEvents);
+io.on("connection", (socket) => {
+  handleSocketEvents(socket, io); 
+});
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
