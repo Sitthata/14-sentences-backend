@@ -14,6 +14,7 @@ function handleSocketEvents(socket, io) {
   });
 
   socket.on("getRoomInfo", (roomCode) => {
+    getRoomInfo(socket, roomCode);
   });
 
   socket.on("disconnect", () => {
