@@ -14,18 +14,6 @@ function handleSocketEvents(socket, io) {
   });
 
   socket.on("getRoomInfo", (roomCode) => {
-
-    logDebug("Received 'getRoomInfo' event");
-    logDebug(`Getting room info for room: ${roomCode}`);    
-    if (!roomMap.has(roomCode)) {
-      logDebug("Lobby not found");
-      socket.emit("lobbyNotFound", "This lobby does not exist");
-    } else {
-      const users = roomMap.get(roomCode).users;
-      socket.emit("roomInfo", users);
-      logDebug(`Emitted 'roomInfo' event with users`);
-    }
-    getRoomInfo(socket, roomCode);
   });
 
   socket.on("disconnect", () => {
