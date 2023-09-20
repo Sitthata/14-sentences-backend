@@ -1,5 +1,5 @@
 const roomMap = new Map();
-const { logDebug } = require("../logDebug");
+const { logDebug } = require("./logDebug");
 
 function logRoomInfo() {
   roomMap.forEach((value, key) =>

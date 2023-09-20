@@ -1,6 +1,6 @@
-const { logDebug } = require("../logDebug");
+const { logDebug } = require("./logDebug");
 const { roomMap } = require("./roomMap");
-const { removeRoomCode } = require("../roomCodeGenerator");
+const { removeRoomCode } = require("./roomCodeGenerator");
 
 function handleDisconnect(socket) {
   logDebug("User disconnected");

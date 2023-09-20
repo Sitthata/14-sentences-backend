@@ -1,4 +1,4 @@
-const { logDebug} = require("./logDebug");
+const { logDebug} = require("./_lobbyHandle/logDebug");
 const { createLobby } = require("./_lobbyHandle/createLobby");
 const { joinLobby } = require("./_lobbyHandle/joinLobby");
 const { handleDisconnect } = require("./_lobbyHandle/handleDisconnect");
