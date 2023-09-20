@@ -1,5 +1,5 @@
 const { roomMap } = require("./roomMap");
-const { logDebug } = require("../logDebug");
+const { logDebug } = require("./logDebug");
 
 function joinLobby(socket, roomCode, username, io) {
   logDebug("Received 'joinLobby' event");

@@ -1,8 +1,8 @@
 const { roomMap, logRoomInfo } = require("./roomMap");
-const { logDebug } = require("../logDebug");
+const { logDebug } = require("./logDebug");
 const {
     generateUniqueRoomCode
-  } = require("../roomCodeGenerator");
+  } = require("./roomCodeGenerator");
   
 
 function createLobby(socket, username) {
