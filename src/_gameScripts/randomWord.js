@@ -64,7 +64,7 @@ function randomIndex(lengthOfArray) {
 function randomWordAllPlayer(mapOfPlayer, listWordObj) {
   if (listWordObj.length == 0) return;
   for (let player of mapOfPlayer.values()) {
-    //If last word, just assign it to property
+    //If last word, assign it to property
     if (listWordObj.good.length === 1 && listWordObj.bad.length === 1) {
       player.wordRandom = [listWordObj.good[0], listWordObj.bad[0]];
       logDebug(player)
