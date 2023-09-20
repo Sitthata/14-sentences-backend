@@ -1,5 +1,6 @@
 const mapPlayer = new Map();
 const debugMode = false; //Debug mode
+
 const player1 = {
   username: "p1",
   word: ["good1", "bad1"],
@@ -20,16 +21,19 @@ const player5 = {
   username: "p5",
   word: ["good5", "bad5"],
 };
+
 mapPlayer.set(0, player1);
 mapPlayer.set(1, player2);
 mapPlayer.set(2, player3);
 mapPlayer.set(3, player4);
 mapPlayer.set(4, player5);
 
+//Object for store list of word from player
 let listAllkeyword = {
   good: [],
   bad: [],
 };
+
 //debug
 function logDebug(massage) {
   if (debugMode === true) {
@@ -46,13 +50,17 @@ function getAllWord(mapOfPlayer) {
     logDebug(`Good word adding to array : ${listAllkeyword}`);
   }
 }
+
+// get data to Object listAllKeyword
 getAllWord(mapPlayer);
 logDebug("-----------------------");
 
+// random index between length
 function randomIndex(lengthOfArray) {
   return Math.floor(Math.random() * lengthOfArray);
 }
 
+// random keyword for player 
 function randomWordAllPlayer(mapOfPlayer, listWordObj) {
   if (listWordObj.length == 0) return;
   for (let player of mapOfPlayer.values()) {
@@ -62,7 +70,8 @@ function randomWordAllPlayer(mapOfPlayer, listWordObj) {
       logDebug(player)
       continue;
     }
-    //clear word
+
+    //clear player's word
     let filterGood = listWordObj.good.filter(
       (word) => !player.word.includes(word)
     );
@@ -78,6 +87,7 @@ function randomWordAllPlayer(mapOfPlayer, listWordObj) {
     logDebug(
       `Random index of two temp array : GoodIndex ${randomGoodIndex},BadIndex ${randomBadIndex}`
     );
+
     //Assign keyword to property
     player.wordRandom = [
       filterGood[randomGoodIndex],
