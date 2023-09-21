@@ -1,5 +1,5 @@
 const mapPlayer = new Map();
-const debugMode = false; //Debug mode
+const debugMode = false; //Debug mode flag
 
 const player1 = {
   username: "p1",
@@ -33,9 +33,6 @@ const listAllKeywords = {
   good: [],
   bad: [],
 };
-
-// Debug mode flag
-const debugMode = true;
 
 // Function for debugging
 function logDebug(message) {
