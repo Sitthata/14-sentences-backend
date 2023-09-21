@@ -3,7 +3,7 @@ const debugMode = true; // Set to true to enable debug output, false to disable 
 
 function logDebug(message) {
   if (debugMode) {
-    console.log(line++ + ": - " + message);
+    console.log(line++ + " - " + message);
   }
 
 }
