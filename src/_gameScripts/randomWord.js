@@ -1,5 +1,5 @@
 const mapPlayer = new Map();
-const debugMode = true; //Debug mode flag
+const debugMode = false; //Debug mode flag
 
 const player1 = {
   username: "p1",
