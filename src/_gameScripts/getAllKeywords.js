@@ -2,7 +2,7 @@ const { mapPlayers } = require("./mapPlayers");
 const { logDebug } = require("../_lobbyHandle/logDebug");
 
 //Object for store list of word from player
-let listAllkeyword = {
+let listAllkeywords = {
     good: [],
     bad: [],
   };
@@ -10,17 +10,17 @@ let listAllkeyword = {
   function getAllWord(mapOfPlayer) {
     for (let player of mapOfPlayer.values()) {
       logDebug(`get player from map : ${player.word}`);
-      listAllkeyword.good.push(player.word[0]);
-      logDebug(`Good word adding to array : ${listAllkeyword.good}`);
-      listAllkeyword.bad.push(player.word[1]);
-      logDebug(`Bad word adding to array : ${listAllkeyword.bad}`);
+      listAllkeywords.good.push(player.word[0]);
+      logDebug(`Good word adding to array : ${listAllkeywords.good}`);
+      listAllkeywords.bad.push(player.word[1]);
+      logDebug(`Bad word adding to array : ${listAllkeywords.bad}`);
     }
   }
   
-  // get data to Object listAllKeyword
+  // get data to Object listAllKeywords
   getAllWord(mapPlayers);
   logDebug("-----------------------");
 
   module.exports = {
-    listAllkeyword
+    listAllkeywords
   }
