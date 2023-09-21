@@ -1,5 +1,5 @@
 const mapPlayer = new Map();
-const debugMode = true; //Debug mode
+const {logDebug} = require('../_lobbyHandle/logDebug')
 
 const player1 = {
   username: "p1",
@@ -34,13 +34,6 @@ let listAllkeyword = {
   bad: [],
 };
 
-//debug
-function logDebug(massage) {
-  if (debugMode === true) {
-    console.log(massage);
-  }
-}
-
 function getAllWord(mapOfPlayer) {
   for (let player of mapOfPlayer.values()) {
     logDebug("get player from map : " + player);
@@ -67,7 +60,7 @@ function randomWordAllPlayer(mapOfPlayer, listWordObj) {
     //If last word, assign it to property
     if (listWordObj.good.length === 1 && listWordObj.bad.length === 1) {
       player.wordRandom = [listWordObj.good[0], listWordObj.bad[0]];
-      logDebug(player)
+      logDebug(`player receive word : ${player.wordRandom}`);
       continue;
     }
 
@@ -93,7 +86,7 @@ function randomWordAllPlayer(mapOfPlayer, listWordObj) {
       filterGood[randomGoodIndex],
       filterBad[randomBadIndex],
     ];
-    logDebug(player);
+    logDebug(`player receive word : ${player.wordRandom}`);
 
     //Remove keyword that are used
     const indexGoodRemove = listWordObj.good.indexOf(
