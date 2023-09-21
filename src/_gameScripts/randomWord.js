@@ -1,54 +1,6 @@
-const mapPlayer = new Map();
-const debugMode = false; //Debug mode flag
-
-const player1 = {
-  username: "p1",
-  word: ["good1", "bad1"],
-};
-const player2 = {
-  username: "p2",
-  word: ["good2", "bad2"],
-};
-const player3 = {
-  username: "p3",
-  word: ["good3", "bad3"],
-};
-const player4 = {
-  username: "p4",
-  word: ["good4", "bad4"],
-};
-const player5 = {
-  username: "p5",
-  word: ["good5", "bad5"],
-};
-
-mapPlayer.set(0, player1);
-mapPlayer.set(1, player2);
-mapPlayer.set(2, player3);
-mapPlayer.set(3, player4);
-mapPlayer.set(4, player5);
-
-// Object to store lists of words from players
-const listAllKeywords = {
-  good: [],
-  bad: [],
-};
-
-// Function for debugging
-function logDebug(message) {
-  if (debugMode) {
-    console.log(message);
-  }
-}
-
-// Function to extract all words from players and populate the listAllKeywords object
-function getAllWords(mapOfPlayers) {
-  for (const player of mapOfPlayers.values()) {
-    const [goodWord, badWord] = player.word;
-    listAllKeywords.good.push(goodWord);
-    listAllKeywords.bad.push(badWord);
-  }
-}
+const {logDebug} = require('../_lobbyHandle/logDebug')
+const {mapPlayers} = require('./mapPlayers');
+const {getAllKeywords} = require('./getAllKeywords')
 
 // Function to get a random index within the length of an array
 function getRandomIndex(array) {
@@ -98,5 +50,4 @@ function randomWordAllPlayers(mapOfPlayers, listWordObj) {
 }
 
 // Example usage:
-getAllWords(mapPlayer);
-randomWordAllPlayers(mapPlayer, listAllKeywords);
+randomWordAllPlayers(mapPlayers, getAllKeywords(mapPlayers));
