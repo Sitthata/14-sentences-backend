@@ -1,5 +1,6 @@
 const mapPlayer = new Map();
-const debugMode = false; //Debug mode flag
+
+const debugMode = false; //Debug mode, set to true to enable debug output, false to disable it
 
 const player1 = {
   username: "p1",
