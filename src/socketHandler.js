@@ -22,8 +22,8 @@ function handleSocketEvents(socket, io) {
     handleDisconnect(socket);
   });
 
-  socket.on("submitKeyword", (roomCode, {goodKeyword, badKeyword}) => {
-    handleKeyword(socket, roomCode, {goodKeyword, badKeyword});
+  socket.on("submitKeyword", (roomCode, payload) => {
+    handleKeyword(socket, roomCode, payload);
   })
 }
 
