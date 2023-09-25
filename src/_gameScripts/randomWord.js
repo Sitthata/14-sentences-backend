@@ -1,6 +1,8 @@
 const { logDebug } = require("../_lobbyHandle/logDebug");
-const { listAllkeywords } = require("./getAllKeywords");
-const { mapPlayers } = require("./mapPlayers");
+
+// for testing output terminal
+// const { listAllkeywords } = require("./getAllKeywords");
+// const { mapPlayers } = require("./mapPlayers");
 
 // random index between length
 function randomIndex(lengthOfArray) {
@@ -57,5 +59,6 @@ function randomWordAllPlayer(mapOfPlayer, listWordObj) {
   }
 }
 
-//example
-randomWordAllPlayer(mapPlayers, listAllkeywords);
+// testing output
+// randomWordAllPlayer(mapPlayers, listAllkeywords);
+exports.randomWordAllPlayer = randomWordAllPlayer;
