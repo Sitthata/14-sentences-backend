@@ -1,8 +1,9 @@
-const { logDebug} = require("./_lobbyHandle/logDebug");
+const { logDebug } = require("./_lobbyHandle/logDebug");
 const { createLobby } = require("./_lobbyHandle/createLobby");
 const { joinLobby } = require("./_lobbyHandle/joinLobby");
 const { handleDisconnect } = require("./_lobbyHandle/handleDisconnect");
-const {handleKeyword } = require("./_lobbyHandle/handleKeyword")
+const { handleKeyword } = require("./_lobbyHandle/handleKeyword");
+const { handleReconnect } = require("./_lobbyHandle/handleReconnect");
 const { roomMap, logRoomInfo } = require("./_lobbyHandle/roomMap.js");
 
 function handleSocketEvents(socket, io) {
@@ -22,9 +23,13 @@ function handleSocketEvents(socket, io) {
     handleDisconnect(socket);
   });
 
+  socket.on("reconnect", () => {
+    handleReconnect(socket);
+  })
+
   socket.on("submitKeyword", (roomCode, payload) => {
     handleKeyword(socket, roomCode, payload);
-  })
+  });
 }
 
 function getRoomInfo(socket, roomCode) {

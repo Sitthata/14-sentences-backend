@@ -1,12 +1,14 @@
 const { logDebug } = require("./logDebug");
 const { roomMap } = require("./roomMap");
 const { removeRoomCode } = require("./roomCodeGenerator");
+const disconnectUserMap = new Map();
 
 function handleDisconnect(socket) {
   logDebug("User disconnected");
 
   roomMap.forEach((value, key) => {
     if (value.users.some((user) => user.id === socket.id)) {
+      disconnectUserMap.set(socket.id, {key, value})
       value.users = value.users.filter((user) => user.id !== socket.id);
 
       if (value.users.length === 0) {
@@ -17,4 +19,7 @@ function handleDisconnect(socket) {
   });
 }
 
-exports.handleDisconnect = handleDisconnect;
+module.exports = {
+  handleDisconnect,
+  disconnectUserMap
+};
